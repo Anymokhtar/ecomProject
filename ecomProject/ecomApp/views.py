@@ -1,3 +1,4 @@
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article
 from .models import Commande, Paiement
@@ -95,7 +96,8 @@ def modifier_profil(request):
         elif 'change_password' in request.POST:
             form = PasswordChangeForm(user=user, data=request.POST)
             if form.is_valid():
-                form.save()
+                user = form.save()
+                update_session_auth_hash(request, user)  # mettre à jour la session de l'utilisateur
                 messages.success(request, 'Le mot de passe a été modifié avec succès.')
                 return redirect('profil')
         elif 'delete_account' in request.POST:
@@ -106,5 +108,6 @@ def modifier_profil(request):
         form_username = UserChangeForm(instance=user)
         form_email = UserChangeForm(instance=user)
         form_password = PasswordChangeForm(user=user)
+
     context = {'form_username': form_username, 'form_email': form_email, 'form_password': form_password}
     return render(request, 'modifier_profil.html', context)

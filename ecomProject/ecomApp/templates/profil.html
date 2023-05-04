@@ -3,42 +3,55 @@
 {% block title %}Profil{% endblock %}
 
 {% block content %}
-    <h2>Profil de {{ user.username }}</h2>
-    <p>Nom d'utilisateur : {{ user.username }}</p>
-    <p>Adresse email : {{ user.email }}</p>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Profil de {{ user.username }}</h2>
+            <p class="card-text">Nom d'utilisateur : {{ user.username }}</p>
+            <p class="card-text">Adresse email : {{ user.email }}</p>
 
-    <h3>Commandes</h3>
-    {% if commandes %}
-        <ul>
-        {% for commande in commandes %}
-            <li>{{ commande.date | date:'d/m/Y' }} - {{ commande.total }} €</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucune commande trouvée.</p>
-    {% endif %}
+            <h3>Commandes</h3>
+            {% if commandes %}
+              <ul>
+              {% for commande in commandes %}
+                <li>{{ commande.date | date:'d/m/Y' }} - {{ commande.total }} €</li>
+              {% endfor %}
+              </ul>
+            {% else %}
+              <p>Aucune commande trouvée.</p>
+            {% endif %}
 
-    <h3>Paiements</h3>
-    {% if paiements %}
-        <ul>
-        {% for paiement in paiements %}
-            <li>{{ paiement.date | date:'d/m/Y' }} - {{ paiement.montant }} €</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucun paiement trouvé.</p>
-    {% endif %}
-{% if user.is_authenticated %}
-  <form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Déconnexion</button>
-    <input type="hidden" name="next" value="{% url 'accueil' %}">
-  </form>
-{% else %}
-  <a href="{% url 'login' %}">Connexion</a>
-{% endif %}
-<a href="{% url 'modifier_profil' %}" class="btn btn-primary">Modifier le profil</a>
+            <h3>Paiements</h3>
+            {% if paiements %}
+              <ul>
+              {% for paiement in paiements %}
+                <li>{{ paiement.date | date:'d/m/Y' }} - {{ paiement.montant }} €</li>
+              {% endfor %}
+              </ul>
+            {% else %}
+              <p>Aucun paiement trouvé.</p>
+            {% endif %}
 
-<button type="submit">Ajouter d'articles</button>
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="{% url 'modifier_profil' %}" class="btn btn-secondary">Modifier le profil</a>
 
+              <a href="#" class="btn btn-success">Ajouter des articles</a>
+
+              {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Déconnexion</button>
+                  <input type="hidden" name="next" value="{% url 'accueil' %}">
+                </form>
+              {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary">Connexion</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -1,29 +1,33 @@
 {% extends 'base.html' %}
 
+{% block title %}Modifier le profil{% endblock %}
+
 {% block content %}
-  <h1>Modifier le profil</h1>
-  <form method="post">
-    {% csrf_token %}
-    <h2>Modifier le nom d'utilisateur</h2>
-    {{ form_username.as_p }}
-    <button type="submit" name="change_username">Modifier le nom d'utilisateur</button>
-  </form>
-  <form method="post">
-    {% csrf_token %}
-    <h2>Modifier l'adresse email</h2>
-    {{ form_email.as_p }}
-    <button type="submit" name="change_email">Modifier l'adresse email</button>
-  </form>
-  <form method="post">
-    {% csrf_token %}
-    <h2>Modifier le mot de passe</h2>
-    {{ form_password.as_p }}
-    <button type="submit" name="change_password">Modifier le mot de passe</button>
-  </form>
-  <form method="post">
-    {% csrf_token %}
-    <h2>Supprimer le compte</h2>
-    <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
-    <button type="submit" name="delete_account">Supprimer le compte</button>
-  </form>
+  <div class="container">
+    <h1 class="mb-4">Modifier le profil</h1>
+    <form method="post" class="mb-4">
+      {% csrf_token %}
+      <h2 class="h4 mb-3">Modifier le nom d'utilisateur</h2>
+      {{ form_username.as_p }}
+      <button type="submit" class="btn btn-primary" name="change_username">Modifier le nom d'utilisateur</button>
+    </form>
+    <form method="post" class="mb-4">
+      {% csrf_token %}
+      <h2 class="h4 mb-3">Modifier l'adresse email</h2>
+      {{ form_email.as_p }}
+      <button type="submit" class="btn btn-primary" name="change_email">Modifier l'adresse email</button>
+    </form>
+    <form method="post" class="mb-4">
+      {% csrf_token %}
+      <h2 class="h4 mb-3">Modifier le mot de passe</h2>
+      {{ form_password.as_p }}
+      <button type="submit" class="btn btn-primary" name="change_password">Modifier le mot de passe</button>
+    </form>
+    <form method="post">
+      {% csrf_token %}
+      <h2 class="h4 mb-3">Supprimer le compte</h2>
+      <p class="mb-4">Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+      <button type="submit" class="btn btn-danger" name="delete_account">Supprimer le compte</button>
+    </form>
+  </div>
 {% endblock %}
