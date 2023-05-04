@@ -1,16 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Résultats de recherche{% endblock %}
 
 {% block content %}
-    <h2>Résultats de recherche pour "{{ query }}"</h2>
-    {% if articles %}
-        <ul>
-        {% for article in articles %}
-            <li><a href="{% url 'detail_article' article.id %}">{{ article.titre }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucun article ne correspond à votre recherche.</p>
-    {% endif %}
+
+<div class="container card">
+  <form method="get">
+    <div class="form-group">
+      <label for="search">Rechercher des articles :</label>
+      <input type="text" name="q" class="form-control" id="search" placeholder="Entrez votre recherche...">
+    </div>
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+  </form>
+
+  {% if articles %}
+    <h4>Résultats de la recherche pour "{{ query }}" :</h4>
+    {% for article in articles %}
+   <div class="container ">
+  <div class="card mb-3 ">
+    <div class="row no-gutters">
+      <div class="col-md-4 ">
+        <img src="{{ article.image.url }}" class="card-img" enctype="multipart/form-data" alt="{{ article.titre }}">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ article.titre }}</h5>
+          <p class="card-text">{{ article.description }}</p>
+          <p class="card-text"><strong>Prix :</strong> {{ article.prix }} €</p>
+          <p class="card-text"><strong>Quantité :</strong> {{ article.quantite }}</p>
+          <p class="card-text"><strong>Catégorie :</strong> {{ article.categorie }}</p>
+          <p class="card-text"><small class="text-muted">Mis en vente le {{ article.date_creation|date:"d/m/Y" }}</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+  {% elif query %}
+    <p>Aucun article trouvé pour "{{ query }}".</p>
+  {% endif %}
+</div>
+</div>
 {% endblock %}
