@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="text-center">Inscription</h2>
+          </div>
+          <div class="card-body">
+            {% if registered %}
+            <div class="alert alert-success" role="alert">
+              Vous avez été enregistré avec succès ! Vous pouvez maintenant vous connecter.
+            </div>
+            {% endif %}
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+              </div>
+              <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+              </div>
+              <div class="form-group">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+              </div>
+              <div class="form-group">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
