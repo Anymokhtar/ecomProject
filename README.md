@@ -35,7 +35,7 @@ Le script de web scraping utilise la bibliothèque BeautifulSoup pour extraire l
 Les informations sont ensuite importées dans la base de données du site web.
 Recherche :
 Les utilisateurs peuvent rechercher des articles en fonction de différents critères tels que le nom de l'article, la description et le prix.
-Les résultats de la recherche sont affichés sous forme de liste et peuvent être triés par nom, date de publication ou prix.
+Les résultats de la recherche sont affichés sous forme de liste.
 Publication d'articles :
 Les utilisateurs peuvent publier des articles à vendre en remplissant un formulaire.
 Les informations sur les articles sont stockées dans la base de données, y compris le nom de l'article, la description, le prix et le propriétaire.
@@ -43,12 +43,12 @@ Les utilisateurs peuvent modifier et supprimer les articles qu'ils ont publiés.
 Achat d'articles :
 Les utilisateurs peuvent ajouter des articles à leur panier avant de passer à la caisse.
 Les informations sur le panier sont stockées dans la session de l'utilisateur.
-Les utilisateurs peuvent payer pour leurs achats en ligne en utilisant un système de paiement tiers tel que Stripe ou PayPal.
+Les utilisateurs peuvent payer pour leurs achats en ligne en utilisant un système de paiement tiers tel que Stripe.
 Les informations sur les commandes et les paiements sont stockées dans la base de données.
 Technologies utilisées :
 
 Django pour le développement web.
 MySQL pour la base de données.
 BeautifulSoup pour le web scraping.
-Stripe ou PayPal pour le système de paiement.
-En résumé, ce projet est un exemple complet de site web de vente en ligne qui couvre toutes les fonctionnalités principales, y compris l'authentification, la recherche, la publication et l'achat d'articles, ainsi que l'intégration d'un système de paiement tiers et d'un système de panier. Le projet utilise Django comme framework de développement web, MySQL pour la base de données, BeautifulSoup pour le web scraping et Stripe ou PayPal pour le système de paiement.
+Stripe pour le système de paiement.
+
