@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import accueil, recherche_article, profil, CustomLogoutView, UtilisateurCreationView, modifier_profil, \
-    modifier_panier
+    modifier_panier, modifier_article
 from .views import voir_panier, ajouter_panier, supprimer_panier
 from .views import CustomLoginView
 from . import views
@@ -18,4 +18,6 @@ urlpatterns = [
     path('supprimer_panier/<int:article_id>/', supprimer_panier, name='supprimer_panier'),
     path('modifier_panier/<int:article_id>/', modifier_panier, name='modifier_panier'),
     path('mes_articles/', views.mes_articles, name='mes_articles'),
+    path('modifier_article/<int:id>/', modifier_article, name='modifier_article'),
+    path('articles/<int:article_id>/supprimer/', views.supprimer_article, name='supprimer_article'),
 ]

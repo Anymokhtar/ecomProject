@@ -16,6 +16,7 @@
               <table class="table">
                 <thead>
                   <tr>
+                    <th>Photo</th>
                     <th>Titre</th>
                     <th>Prix</th>
                     <th>Quantité</th>
@@ -28,6 +29,7 @@
                 <tbody>
                   {% for article in articles_vendus %}
                     <tr>
+                      <td><img src="{{ article.image.url }}" alt="{{ article.titre }}" width="50px"></td>
                       <td>{{ article.titre }}</td>
                       <td>{{ article.prix }} €</td>
                       <td>{{ article.quantite }}</td>
@@ -35,8 +37,9 @@
                       <td>{{ article.date_creation | date:'d/m/Y' }}</td>
                       <td>{{ article.etat }}</td>
                       <td>
-                        <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Modifier</a>
-                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Supprimer</a>
+                        <a href="{% url 'modifier_article' article.id %}" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="{% url 'supprimer_article' article.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Supprimer</a>
+
                       </td>
                     </tr>
                   {% endfor %}
@@ -71,6 +74,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>

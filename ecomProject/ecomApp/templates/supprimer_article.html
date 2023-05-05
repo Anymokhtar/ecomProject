@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer l'article{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title"><i class="fas fa-trash-alt"></i> Supprimer l'article "{{ article.nom }}"</h2>
+            <p>Êtes-vous sûr de vouloir supprimer cet article ?</p>
+            <form method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</button>
+              <a href="{% url 'mes_articles' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Annuler</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

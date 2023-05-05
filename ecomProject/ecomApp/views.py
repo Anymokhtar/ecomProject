@@ -5,7 +5,7 @@ from .models import Commande, Paiement
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
-from .forms import UtilisateurCreationForm
+from .forms import UtilisateurCreationForm, ArticleForm
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -18,6 +18,7 @@ from .models import Article
 from django.http import request
 from .models import Panier
 from .scrape_amazon_laptops import scrape_amazon_laptops
+from django.urls import reverse
 
 
 def scrape_laptops_view(request):
@@ -86,6 +87,29 @@ def mes_articles(request):
     }
 
     return render(request, 'mes_articles.html', context)
+
+
+@login_required
+def modifier_article(request, id):
+    article = get_object_or_404(Article, id=id, vendeur=request.user)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('mes_articles')
+    else:
+        form = ArticleForm(instance=article)
+    context = {'form': form}
+    return render(request, 'modifier_article.html', context)
+
+
+def supprimer_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        article.delete()
+        return redirect('mes_articles')
+    context = {'article': article}
+    return render(request, 'supprimer_article.html', context)
 
 
 @login_required
