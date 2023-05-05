@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="container">
-    <h1>Bienvenue sur notre site de vente en ligne !</h1>
+    <h1>Bienvenue sur notre site d'achat et de vente en ligne !</h1>
     <p>Nous proposons une large sélection d'articles à des prix compétitifs.</p>
 
     <div class="row">
@@ -14,8 +14,10 @@
               <h5 class="card-title">{{ article.titre }}</h5>
               <p class="card-text">{{ article.description }}</p>
               <p class="card-text"><strong>{{ article.prix }} €</strong></p>
-              <a href="#" class="btn btn-primary mr-2">Acheter</a>
-              <a href="{% url 'ajouter_panier' article.id %}" class="btn btn-success">Panier</a>
+              <div class="d-flex">
+                <a href="#" class="btn btn-primary mr-2"><i class="fas fa-shopping-cart"></i> Acheter</a>
+                <a href="{% url 'voir_panier' %}" class="btn btn-success"><i class="fas fa-shopping-cart"></i> Panier</a>
+              </div>
             </div>
           </div>
         </div>

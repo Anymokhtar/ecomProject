@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="container">
-    <h1>Panier</h1>
+    <h1><i class="fas fa-shopping-cart"></i> Panier</h1>
     <table class="table">
       <thead>
         <tr>
@@ -17,8 +17,13 @@
         {% for ligne_panier in panier.lignes_panier.all %}
           <tr>
             <td>
-              <img src="{{ ligne_panier.article.image.url }}" alt="{{ ligne_panier.article.titre }}" style="max-height: 100px">
-              {{ ligne_panier.article.titre }}
+              <div class="d-flex align-items-center">
+                <img src="{{ ligne_panier.article.image.url }}" alt="{{ ligne_panier.article.titre }}" style="max-height: 100px">
+                <div class="ml-3">
+                  <h6>{{ ligne_panier.article.titre }}</h6>
+                  <small>{{ ligne_panier.article.description }}</small>
+                </div>
+              </div>
             </td>
             <td>
               <form method="POST" action="{% url 'modifier_panier' ligne_panier.article.id %}">
@@ -26,7 +31,7 @@
                 <div class="input-group">
                   <input type="number" name="quantite" value="{{ ligne_panier.quantite }}" min="1" class="form-control">
                   <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Modifier</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i></button>
                   </div>
                 </div>
               </form>
@@ -34,22 +39,22 @@
             <td>{{ ligne_panier.article.prix }} €</td>
             <td>{{ ligne_panier.sous_total }} €</td>
             <td>
-              <a href="{% url 'supprimer_panier' ligne_panier.article.id %}" class="btn btn-danger">Supprimer</a>
+              <a href="{% url 'supprimer_panier' ligne_panier.article.id %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
             </td>
           </tr>
         {% empty %}
           <tr>
-            <td colspan="5">Votre panier est vide.</td>
+            <td colspan="5"><i>Votre panier est vide.</i></td>
           </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
           <td colspan="3"></td>
-          <td>Total : {{ panier.total }} €</td>
+          <td><b>Total : {{ panier.total }} €</b></td>
           <td>
             {% if panier.lignes_panier.all %}
-              <a href="#" class="btn btn-success">Passer commande</a>
+              <a href="#" class="btn btn-success"><i class="fas fa-credit-card"></i> Commander</a>
             {% endif %}
           </td>
         </tr>

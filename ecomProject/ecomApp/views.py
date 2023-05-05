@@ -78,6 +78,17 @@ def profil(request):
 
 
 @login_required
+def mes_articles(request):
+    articles_vendus = Article.objects.filter(vendeur=request.user)
+
+    context = {
+        'articles_vendus': articles_vendus
+    }
+
+    return render(request, 'mes_articles.html', context)
+
+
+@login_required
 def modifier_profil(request):
     user = request.user
     if request.method == 'POST':
@@ -112,6 +123,7 @@ def modifier_profil(request):
     context = {'form_username': form_username, 'form_email': form_email, 'form_password': form_password}
     return render(request, 'modifier_profil.html', context)
 
+
 @login_required
 def voir_panier(request):
     panier = Panier.objects.filter(utilisateur=request.user).first()
@@ -129,12 +141,14 @@ def ajouter_panier(request, article_id):
     panier.ajouter_article(article, 1)
     return redirect('voir_panier')
 
+
 @login_required
 def supprimer_panier(request, article_id):
     panier = Panier.objects.filter(utilisateur=request.user).first()
     article = Article.objects.get(id=article_id)
     panier.supprimer_article(article)
     return redirect('voir_panier')
+
 
 @login_required
 def modifier_panier(request, article_id):
