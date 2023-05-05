@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Panier</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Article</th>
+          <th>Quantité</th>
+          <th>Prix unitaire</th>
+          <th>Sous-total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ligne_panier in panier.lignes_panier.all %}
+          <tr>
+            <td>
+              <img src="{{ ligne_panier.article.image.url }}" alt="{{ ligne_panier.article.titre }}" style="max-height: 100px">
+              {{ ligne_panier.article.titre }}
+            </td>
+            <td>
+              <form method="POST" action="{% url 'modifier_panier' ligne_panier.article.id %}">
+                {% csrf_token %}
+                <div class="input-group">
+                  <input type="number" name="quantite" value="{{ ligne_panier.quantite }}" min="1" class="form-control">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                  </div>
+                </div>
+              </form>
+            </td>
+            <td>{{ ligne_panier.article.prix }} €</td>
+            <td>{{ ligne_panier.sous_total }} €</td>
+            <td>
+              <a href="{% url 'supprimer_panier' ligne_panier.article.id %}" class="btn btn-danger">Supprimer</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">Votre panier est vide.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"></td>
+          <td>Total : {{ panier.total }} €</td>
+          <td>
+            {% if panier.lignes_panier.all %}
+              <a href="#" class="btn btn-success">Passer commande</a>
+            {% endif %}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+{% endblock %}

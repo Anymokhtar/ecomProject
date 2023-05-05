@@ -16,7 +16,7 @@ from django.core.files.base import ContentFile
 from urllib.request import urlopen
 from .models import Article
 from django.http import request
-
+from .models import Panier
 from .scrape_amazon_laptops import scrape_amazon_laptops
 
 
@@ -111,3 +111,38 @@ def modifier_profil(request):
 
     context = {'form_username': form_username, 'form_email': form_email, 'form_password': form_password}
     return render(request, 'modifier_profil.html', context)
+
+@login_required
+def voir_panier(request):
+    panier = Panier.objects.filter(utilisateur=request.user).first()
+    if not panier:
+        panier = Panier.objects.create(utilisateur=request.user)
+    return render(request, 'panier.html', {'panier': panier})
+
+
+@login_required
+def ajouter_panier(request, article_id):
+    panier = Panier.objects.filter(utilisateur=request.user).first()
+    if not panier:
+        panier = Panier.objects.create(utilisateur=request.user)
+    article = Article.objects.get(id=article_id)
+    panier.ajouter_article(article, 1)
+    return redirect('voir_panier')
+
+@login_required
+def supprimer_panier(request, article_id):
+    panier = Panier.objects.filter(utilisateur=request.user).first()
+    article = Article.objects.get(id=article_id)
+    panier.supprimer_article(article)
+    return redirect('voir_panier')
+
+@login_required
+def modifier_panier(request, article_id):
+    panier = Panier.objects.filter(utilisateur=request.user).first()
+    article = Article.objects.get(id=article_id)
+    quantite = int(request.POST.get('quantite'))
+    if quantite > 0:
+        panier.ajouter_article(article, quantite)
+    else:
+        panier.supprimer_article(article)
+    return redirect('voir_panier')
