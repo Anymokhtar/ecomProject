@@ -65,7 +65,7 @@
       <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
       <li><a href="{% url 'inscription' %}"><i class="fas fa-user-plus"></i> Inscription</a></li>
     {% else %}
-      <li><a href="#"><i class="fas fa-plus"></i> Ajouter un article</a></li>
+      <li><a href="{% url 'ajouter_article' %}"><i class="fas fa-plus"></i> Ajouter un article</a></li>
       <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>

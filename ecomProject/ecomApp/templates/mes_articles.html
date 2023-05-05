@@ -10,7 +10,7 @@
           <div class="card-body">
             <h2 class="card-title"><i class="fas fa-user"></i> Mes articles en vente</h2>
 
-            <a href="#" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Ajouter un article</a>
+            <a href="{% url 'ajouter_article' %}" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Ajouter un article</a>
 
             {% if articles_vendus %}
               <table class="table">
@@ -29,7 +29,9 @@
                 <tbody>
                   {% for article in articles_vendus %}
                     <tr>
+                      {% if article.image %}
                       <td><img src="{{ article.image.url }}" alt="{{ article.titre }}" width="50px"></td>
+                      {% endif %}
                       <td>{{ article.titre }}</td>
                       <td>{{ article.prix }} €</td>
                       <td>{{ article.quantite }}</td>

@@ -33,26 +33,31 @@ class UtilisateurCreationForm(UserCreationForm):
 
 
 class ArticleForm(forms.ModelForm):
-    photo = forms.ImageField(widget=forms.FileInput(attrs={'accept': 'image/*'}))
+    '''Formulaire de création/modification d'un article'''
+
+    image = forms.ImageField(required=False, widget=forms.FileInput(attrs={'accept': 'image/*'}))
 
     class Meta:
         model = Article
-        fields = ['nom', 'description', 'prix', 'photo']
+        fields = ['titre', 'description', 'prix', 'quantite', 'categorie', 'image', 'etat']
         labels = {
-            'nom': 'Nom de l\'article',
+            'titre': 'Titre de l\'article',
             'description': 'Description',
             'prix': 'Prix',
-            'photo': 'Photo de l\'article'
+            'quantite': 'Quantité',
+            'categorie': 'Catégorie',
+            'image': 'Photo de l\'article',
+            'etat': 'État'
         }
         error_messages = {
-            'nom': {'required': 'Le nom de l\'article est requis.'},
+            'titre': {'required': 'Le titre de l\'article est requis.'},
             'description': {'required': 'La description de l\'article est requise.'},
             'prix': {'required': 'Le prix de l\'article est requis.'},
-            'photo': {'required': 'Une photo de l\'article est requise.'},
+            'quantite': {'required': 'La quantité de l\'article est requise.'},
+            'categorie': {'required': 'La catégorie de l\'article est requise.'},
+            'etat': {'required': 'L\'état de l\'article est requis.'},
         }
 
-    def clean_prix(self):
-        prix = self.cleaned_data.get('prix')
-        if prix is not None and prix <= 0:
-            raise forms.ValidationError('Le prix doit être supérieur à zéro.')
-        return prix
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].required = False

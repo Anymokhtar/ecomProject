@@ -1,11 +1,12 @@
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
+
+from .forms import UtilisateurCreationForm, ArticleForm
 from .models import Article
 from .models import Commande, Paiement
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
-from .forms import UtilisateurCreationForm, ArticleForm
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -17,21 +18,10 @@ from urllib.request import urlopen
 from .models import Article
 from django.http import request
 from .models import Panier
-from .scrape_amazon_laptops import scrape_amazon_laptops
-from django.urls import reverse
-
-
-def scrape_laptops_view(request):
-    # appeler la fonction de scraping et enregistrer les données dans la base de données
-    scrape_amazon_laptops(request)
-
-    # afficher une réponse de confirmation
-    return render(request, 'confirmation.html',
-                  {'message': 'Les laptops ont été scrape avec succès à partir d\'Amazon.'})
 
 
 def accueil(request):
-    articles = Article.objects.all()[:4]
+    articles = Article.objects.all()[:]
     context = {'articles': articles}
     return render(request, 'accueil.html', context)
 
@@ -101,6 +91,31 @@ def modifier_article(request, id):
         form = ArticleForm(instance=article)
     context = {'form': form}
     return render(request, 'modifier_article.html', context)
+
+
+@login_required
+def ajouter_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.vendeur = request.user
+            article.save()
+            return redirect('mes_articles')
+    else:
+        form = ArticleForm()
+    context = {'form': form}
+    return render(request, 'ajouter_article.html', context)
+
+
+def my_view(request):
+    article = Article.objects.first()
+    if article.image:
+        image_url = article.image.url
+    else:
+        image_url = None
+    context = {'article': article, 'image_url': image_url}
+    return render(request, 'my_template.html', context)
 
 
 def supprimer_article(request, article_id):

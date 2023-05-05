@@ -4,7 +4,6 @@ from decimal import Decimal
 
 
 class Article(models.Model):
-    nom = models.CharField(max_length=200, default='')
     titre = models.CharField(max_length=200)
     description = models.TextField()
     prix = models.DecimalField(max_digits=8, decimal_places=2)
@@ -15,8 +14,7 @@ class Article(models.Model):
     vendeur = models.ForeignKey(User, on_delete=models.CASCADE)
     etat = models.CharField(max_length=200)
 
-    def __str__(self):
-        return self.nom
+
 
 class Commande(models.Model):
     utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)
