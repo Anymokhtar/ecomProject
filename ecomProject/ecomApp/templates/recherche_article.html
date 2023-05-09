@@ -3,16 +3,16 @@
 
 {% block content %}
 
-<div class="container card">
-  <form method="get">
-    <div class="form-group">
-      <label for="search">Rechercher des articles :</label>
-      <input type="text" name="q" class="form-control" id="search" placeholder="Entrez votre recherche...">
+
+<form method="get" class="search-form">
+  <div class="input-group input-group-sm col-md-6">
+    <input type="text" name="q" class="form-control" placeholder="Rechercher des articles...">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Rechercher</button>
     </div>
-   <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Rechercher</button>
-
-  </form>
-
+  </div>
+</form>
+<div class="container card">
   {% if articles %}
     <h4>Résultats de la recherche pour "{{ query }}" :</h4>
     {% for article in articles %}
@@ -30,6 +30,8 @@
           <p class="card-text"><strong>Quantité :</strong> {{ article.quantite }}</p>
           <p class="card-text"><strong>Catégorie :</strong> {{ article.categorie }}</p>
           <p class="card-text"><small class="text-muted">Mis en vente le {{ article.date_creation|date:"d/m/Y" }}</small></p>
+          <a href="{% url 'ajouter_panier' article.id %}" class="btn btn-success">Panier</a>
+
         </div>
       </div>
     </div>
