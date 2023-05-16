@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import Article
 
 
-class UtilisateurCreationForm(UserCreationForm):
+class InscriptionForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
@@ -21,15 +21,6 @@ class UtilisateurCreationForm(UserCreationForm):
         self.fields['email'].label = 'Adresse email'
         self.fields['password1'].label = 'Mot de passe'
         self.fields['password2'].label = 'Confirmation du mot de passe'
-
-    def save(self, commit=True):
-        utilisateur = super().save(commit=False)
-        utilisateur.email = self.cleaned_data['email']
-
-        if commit:
-            utilisateur.save()
-
-        return utilisateur
 
 
 class ArticleForm(forms.ModelForm):

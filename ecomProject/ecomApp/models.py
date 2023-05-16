@@ -15,7 +15,6 @@ class Article(models.Model):
     etat = models.CharField(max_length=200)
 
 
-
 class Commande(models.Model):
     utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)
     articles = models.ManyToManyField(Article)

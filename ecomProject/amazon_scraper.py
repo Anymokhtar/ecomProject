@@ -6,13 +6,12 @@ from bs4 import BeautifulSoup
 from decimal import Decimal
 from datetime import datetime
 from django.contrib.auth.models import User
+import os
+import django
 
-# Ajout du chemin d'accès au répertoire contenant le fichier settings.py
-sys.path.append(os.path.abspath('C:/Users/moukhtar/PycharmProjects/ecomProject/ecomProject'))
-
-# Configuration de Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecomProject.settings')
 django.setup()
+
 from ecomProject.ecomApp.models import Article
 
 # URL de la page de résultats de recherche d'Amazon avec des ordinateurs portables

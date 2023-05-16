@@ -1,7 +1,7 @@
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import UtilisateurCreationForm, ArticleForm
+from .forms import InscriptionForm, ArticleForm
 from .models import Article
 from .models import Commande, Paiement
 from django.urls import reverse_lazy
@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 from django.core.files.base import ContentFile
 from urllib.request import urlopen
 from .models import Article
-from django.http import request
+from django.http import request, HttpResponse
 from .models import Panier
 from django.conf import settings
 from django.http import JsonResponse
@@ -54,7 +54,6 @@ class StripeIntentView(View):
             })
         except Exception as e:
             return JsonResponse({'error': str(e)})
-
 
 
 class CreateCheckoutSessionView(View):
@@ -147,13 +146,13 @@ def accueil(request):
     return render(request, 'accueil.html', context)
 
 
-#def recherche_article(request):
-   # query = request.GET.get('q')
-   # articles = None
-   # if query:
-     #   articles = Article.objects.filter(titre__icontains=query)
-   # context = {'articles': articles, 'query': query}
-   # return render(request, 'recherche_article.html', context)
+# def recherche_article(request):
+# query = request.GET.get('q')
+# articles = None
+# if query:
+#   articles = Article.objects.filter(titre__icontains=query)
+# context = {'articles': articles, 'query': query}
+# return render(request, 'recherche_article.html', context)
 def recherche_article(request):
     query = request.GET.get('q')  # Récupérer le terme de recherche depuis les paramètres de requête
 
@@ -161,7 +160,8 @@ def recherche_article(request):
 
     if query:
         # Si un terme de recherche est spécifié, filtrer les articles en fonction du titre ou de la description
-        articles = articles.filter(titre__icontains=query) | articles.filter(description__icontains=query) | articles.filter(prix__icontains=query)
+        articles = articles.filter(titre__icontains=query) | articles.filter(
+            description__icontains=query) | articles.filter(prix__icontains=query)
 
     context = {
         'articles': articles,
@@ -169,7 +169,6 @@ def recherche_article(request):
     }
 
     return render(request, 'recherche_article.html', context)
-
 
 
 # Vue de connexion personnalisée
@@ -190,12 +189,15 @@ class CustomLogoutView(LogoutView):
 
 
 # Vue pour créer un compte
-class UtilisateurCreationView(CreateView):
-    model = User
-    form_class = UtilisateurCreationForm
-    template_name = 'registration/inscription.html'
-    success_url = reverse_lazy('login')
+def inscription(request):
+    if request.method == 'POST':
+        form = InscriptionForm(request.POST)
+        if form.is_valid():
+            return redirect('login')
+    else:
+        form = InscriptionForm()
 
+    return render(request, 'registration/inscription.html', {'form': form})
 
 @login_required
 def profil(request):
@@ -229,18 +231,20 @@ def modifier_article(request, id):
     context = {'form': form}
     return render(request, 'modifier_article.html', context)
 
-#def article_detail(request, id):
-   # article = get_object_or_404(Article, id=id, vendeur=request.user)
-   # if request.method == 'POST':
-    #    form = ArticleForm(request.POST, request.FILES, instance=article)
-  #  else:
-   #     form = ArticleForm(instance=article)
-   # context = {'form': form}
-   # return render(request, 'article_dettail.html', context)
+
+# def article_detail(request, id):
+# article = get_object_or_404(Article, id=id, vendeur=request.user)
+# if request.method == 'POST':
+#    form = ArticleForm(request.POST, request.FILES, instance=article)
+#  else:
+#     form = ArticleForm(instance=article)
+# context = {'form': form}
+# return render(request, 'article_dettail.html', context)
 def article_detail(request, id):
     article = get_object_or_404(Article, id=id)
     context = {'article': article}
     return render(request, 'article_dettail.html', context)
+
 
 @login_required
 def ajouter_article(request):

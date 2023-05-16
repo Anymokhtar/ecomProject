@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import accueil, recherche_article, profil, CustomLogoutView, UtilisateurCreationView, modifier_profil, \
-    modifier_panier, modifier_article, ajouter_article, CreateCheckoutSessionView, SuccessView, cancelView, StripeIntentView, stripe_webhook
+from .views import accueil, recherche_article, profil, CustomLogoutView, modifier_profil, \
+    modifier_panier, modifier_article, ajouter_article, CreateCheckoutSessionView, SuccessView, cancelView, \
+    StripeIntentView, stripe_webhook, inscription
 from .views import voir_panier, ajouter_panier, supprimer_panier, article_detail
 from .views import CustomLoginView
 from . import views
@@ -10,7 +11,7 @@ urlpatterns = [
     path('profil/', profil, name='profil'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
-    path('inscription/', UtilisateurCreationView.as_view(), name='inscription'),
+    path('inscription/', inscription, name='inscription'),
     path('accounts/profile/', profil, name='profile'),
     path('modifier_profil/', modifier_profil, name='modifier_profil'),
     path('panier/', voir_panier, name='voir_panier'),

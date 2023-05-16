@@ -1,30 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
   <div class="container">
-    <h1>Bienvenue sur notre site de vente en ligne !</h1>
-    <p>Nous proposons une large sélection d'articles à des prix compétitifs.</p>
-
+    <h1 class="text-center my-5" style="color: #333; font-size: 3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Bienvenue sur notre site de vente en ligne !</h1>
     <div class="row">
-      {% for article in articles %}
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-          <div class="card">
-            {% if article.image %}
-  <img class="card-img-top img-fluid" src="{{ article.image.url }}" alt="{{ article.titre }}" style="object-fit: cover; object-position: center;">
-{% else %}
-  <p>No image available</p>
-{% endif %}
-            <div class="card-body">
-              <h5 class="card-title">{{ article.titre }}</h5>
-              <p class="card-text">{{ article.description }}</p>
-              <p class="card-text"><strong>{{ article.prix }} €</strong></p>
-              <a href="{% url 'ajouter_panier' article.id %}" class="btn btn-success">Panier</a>
-                <a href="{% url 'article_dettail' article.id %}" class="btn btn-primary mr-2">voir</a>
-
-            </div>
+  {% for article in articles %}
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+      <div class="card">
+        {% if article.image %}
+          <img class="card-img-top" src="{{ article.image.url }}" alt="{{ article.titre }}">
+        {% else %}
+          <div class="no-image-placeholder">
+            <p>No image available</p>
+          </div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ article.titre }}</h5>
+          <p class="card-text">{{ article.description }}</p>
+          <p class="card-text"><span class="badge badge-success">{{ article.prix }} €</span></p>
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'ajouter_panier' article.id %}" class="btn btn-success">panier</a>
+            <a href="{% url 'article_dettail' article.id %}" class="btn btn-primary">détails</a>
           </div>
         </div>
-      {% endfor %}
+      </div>
     </div>
-  </div>
+  {% endfor %}
+</div>
+ </div>
+  <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      border-radius: 8px;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img-top {
+      object-fit: cover;
+      object-position: center;
+      height: 200px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .no-image-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      background-color: #f8f9fa;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+  </style>
 {% endblock %}
