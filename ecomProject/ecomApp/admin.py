@@ -12,3 +12,5 @@ admin.site.register(Commande)
 admin.site.register(Paiement)
 admin.site.register(Panier)
 admin.site.register(LignePanier)
+#mokhtar
+#Aresmouk123

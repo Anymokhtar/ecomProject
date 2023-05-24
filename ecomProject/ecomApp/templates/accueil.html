@@ -28,7 +28,27 @@
     </div>
   {% endfor %}
 </div>
+
+<div class="pagination">
+  <span class="step-links">
+    {% if articles.has_previous %}
+      <a href="?page=1">&laquo; première page</a>
+      <a href="?page={{ articles.previous_page_number }}">page précédente</a>
+    {% endif %}
+
+    <span class="current-page">
+      Page {{ articles.number }} sur {{ articles.paginator.num_pages }}.
+    </span>
+
+    {% if articles.has_next %}
+      <a href="?page={{ articles.next_page_number }}">page suivante</a>
+      <a href="?page={{ articles.paginator.num_pages }}">dernière page &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
  </div>
+
   <style>
     .card {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -81,5 +101,35 @@
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
     }
+    .pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.2rem;
+  margin: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.pagination a:hover {
+  background-color: #f8f9fa;
+}
+
+.pagination .current-page {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+}
   </style>
 {% endblock %}

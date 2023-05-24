@@ -23,6 +23,7 @@ class InscriptionForm(UserCreationForm):
         self.fields['password2'].label = 'Confirmation du mot de passe'
 
 
+
 class ArticleForm(forms.ModelForm):
     '''Formulaire de création/modification d'un article'''
 

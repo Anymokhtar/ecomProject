@@ -138,11 +138,29 @@ def stripe_webhook(request):
 
 
 def accueil(request):
-    articles = Article.objects.all()[:]
-    context = {'articles': articles,
-               'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
-               }
+    article_list = Article.objects.all()
+    paginator = Paginator(article_list, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'articles': page_obj,
+        'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
+    }
+    return render(request, 'accueil.html', context)
 
+
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import Article
+
+
+# Pagination
+def article_list(request):
+    article_list = Article.objects.all()
+    paginator = Paginator(article_list, 8)  # Afficher 6 articles par page
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
+    context = {'articles': articles}
     return render(request, 'accueil.html', context)
 
 
@@ -198,6 +216,7 @@ def inscription(request):
         form = InscriptionForm()
 
     return render(request, 'registration/inscription.html', {'form': form})
+
 
 @login_required
 def profil(request):
